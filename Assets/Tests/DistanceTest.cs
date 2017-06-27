@@ -8,6 +8,7 @@ namespace Sandbox.Distance
 	{
 		void Start()
 		{
+			//We present some base cases (and then cross check the AllUnits output with Google)
 			Inch MyHeight = new Inch(74);
 			Meter ThreeMeters = new Meter(3);
 			Mile DistanceToTheMoon = new Mile(238900);

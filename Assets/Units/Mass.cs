@@ -7,8 +7,6 @@ namespace Sandbox.Things
 {
 	public abstract class AbstractMass : AbstractUnit
 	{
-		public AbstractMass Mass;
-
 		public override string Name
 		{
 			get { return "AbstractMass"; }
@@ -17,10 +15,14 @@ namespace Sandbox.Things
 		{
 			get { return "Mass"; }
 		}
+
+		//This is to make the unit easily debuggable.
 		public string AllUnits()
 		{
 			return Name + " " + Category + ": " + ToGrams().Display + "   " + ToKilograms().Display + "   " + ToPounds().Display;
 		}
+
+		//This is a grouping of the available conversions
 		public abstract Gram ToGrams();
 		public abstract Pound ToPounds();
 		public abstract Kilogram ToKilograms();

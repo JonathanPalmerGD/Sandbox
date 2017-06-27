@@ -15,10 +15,14 @@ namespace Sandbox.Distance
 		{
 			get { return "Time"; }
 		}
+		
+		//This is to make the unit easily debuggable.
 		public string AllUnits()
 		{
 			return Name + " " + Category + ": " + ToSecond().Display + "   " + ToHour().Display + "   ";
 		}
+
+		//This is a grouping of the available conversions
 		public abstract Second ToSecond();
 		public abstract Minute ToMinute();
 		public abstract Hour ToHour();

@@ -10,6 +10,7 @@ namespace Sandbox.Thermal
 	//It puts all unit conversion code in one place, so if a mistake is made, it can easily be changed.
 	public abstract class AbstractTemperature : AbstractUnit
 	{
+		//This could be a static thing? I know these don't want to live as in-lines, but what is more efficient/readable?
 		public string Degree { get { return "°"; } }
 
 		public override string Name
@@ -20,14 +21,19 @@ namespace Sandbox.Thermal
 		{
 			get { return "Temperature"; }
 		}
+		//This is to make the unit easily debuggable.
 		public string AllUnits()
 		{
 			return Name + " " + Category + ": " + ToCelsius().Display + "   " + ToFahrenheit().Display + "   " + ToKelvin().Display;
 		}
+
+		//We use a custom display here because we do '°' followed by the unit
 		public override string Display
 		{
 			get { return (Unit + " "+ Degree + Value); }
 		}
+		
+		//This is a grouping of the available conversions
 		public abstract Celsius ToCelsius();
 		public abstract Kelvin ToKelvin();
 		public abstract Fahrenheit ToFahrenheit();

@@ -8,6 +8,7 @@ namespace Sandbox.Things
 	{
 		void Start()
 		{
+			//We present some base cases (and then cross check the AllUnits output with Google)
 			Gram PaperbackBookWeight = new Gram(75);
 			Kilogram RocketLauncherWeight = new Kilogram(4.5f);
 			Pound MyWeight = new Pound(175);

@@ -4,11 +4,18 @@ using UnityEngine;
 
 namespace Sandbox
 {
+	/// <summary>
+	/// The empty, but core interface of how Units can behave. Will fill this in as necessarily.
+	/// Some other aspects might be required in the interface.
+	/// </summary>
 	public interface IAbstractUnit
 	{
 
 	}
 
+	/// <summary>
+	/// This is our Abstract Unit class. Abstract so nobody uses it but we can force default behavior with virtuals.
+	/// </summary>
 	public abstract class AbstractUnit : IAbstractUnit
 	{
 		private float _unit = 0.0f;

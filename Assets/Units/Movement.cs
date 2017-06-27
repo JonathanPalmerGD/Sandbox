@@ -7,6 +7,8 @@ namespace Sandbox.Distance
 {
 	public abstract class AbstractVelocity : AbstractUnit
 	{
+		//Since Velocity is a combination of a Distance Unit and a Time unit, we use each of these
+		//Parent/Child lets us assign different variables to this. We can't strongly check what something is made of, but the names MeterPerSecond will generally help
 		public AbstractDistance MovementDistance;
 		public AbstractTime TimeInterval;
 
@@ -25,10 +27,15 @@ namespace Sandbox.Distance
 		{
 			get { return "Movement"; }
 		}
+		//This is to make the unit easily debuggable.
 		public string AllUnits()
 		{
 			return Name + " " + Category + ": " + ToMetersPerSecond().Display + "   " + ToFeetPerSecond().Display + "   " + ToMilesPerHour().Display + "   ";
 		}
+
+		//There will be some objective to add an Integrate vs Differentiate
+
+		//This is a grouping of the available conversions
 		public abstract MetersPerSecond ToMetersPerSecond();
 		public abstract FeetPerSecond ToFeetPerSecond();
 		public abstract MilesPerHour ToMilesPerHour();

@@ -8,6 +8,7 @@ namespace Sandbox.Thermal
 	{
 		void Start()
 		{
+			//We present some base cases (and then cross check the AllUnits output with Google)
 			Kelvin AbsoluteZero = new Kelvin(0);
 			Celsius waterBoilingSTP = new Celsius(100);
 			Fahrenheit ShortsWeather = new Fahrenheit(75);

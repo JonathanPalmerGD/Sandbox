@@ -41,6 +41,10 @@ namespace Sandbox
 		}
 	}
 
+	/// <summary>
+	/// Represents an AbstractPower. I thought about naming it, but then we conflict when I get into Force/Work/Power.
+	/// This name is a bit clearer that it has to do with exponents.
+	/// </summary>
 	public abstract class RaiseToPower
 	{
 		public float Resolve(float Unit)

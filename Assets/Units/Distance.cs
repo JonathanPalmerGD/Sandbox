@@ -6,10 +6,22 @@ namespace Sandbox.Distance
 {
 	public abstract class AbstractDistance : AbstractUnit
 	{
+		public override string Name
+		{
+			get { return "AbstractDistance"; }
+		}
+		public override string Category
+		{
+			get { return "Distance"; }
+		}
+
+		//This is to make the unit easily debuggable.
 		public string AllUnits()
 		{
 			return Name + " " + Category + ": " + ToMeter().Display + "   " + ToInch().Display + "   " + ToFoot().Display + "   " + ToMile().Display;
 		}
+
+		//This is a grouping of the available conversions
 		public abstract Meter ToMeter();
 		public abstract Inch ToInch();
 		public abstract Foot ToFoot();
