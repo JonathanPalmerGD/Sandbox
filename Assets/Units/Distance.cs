@@ -49,6 +49,7 @@ namespace Sandbox.Distance
 		{
 			return new Mile(Unit / 1609.34f);
 		}
+		public Meter() { }
 	}
 
 	public class Inch : AbstractDistance

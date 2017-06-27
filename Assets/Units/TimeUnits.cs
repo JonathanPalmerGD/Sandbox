@@ -64,6 +64,7 @@ namespace Sandbox.Distance
 		{
 			Unit = timeInterval;
 		}
+		public Second() { }
 	}
 
 	public class Minute : AbstractTime

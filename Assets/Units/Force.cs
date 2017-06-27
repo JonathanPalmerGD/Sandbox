@@ -1,20 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sandbox.Things;
+using Sandbox.Distance;
 
 namespace Sandbox
 {
 	public class AbstractForce : AbstractUnit
 	{
+		public AbstractMass Mass;
+		public AbstractAcceleration Acceleration;
 
-		void Start()
+		public AbstractPressure ApplyForceToArea(Pow<Meter, Squared> area)
 		{
-
-		}
-
-		void Update()
-		{
-
+			return null;
+			//return new AbstractPressure();
 		}
 	}
 }

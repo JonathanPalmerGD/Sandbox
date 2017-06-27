@@ -4,13 +4,23 @@ using UnityEngine;
 
 namespace Sandbox
 {
-	public abstract class AbstractUnit
+	public interface IAbstractUnit
+	{
+
+	}
+
+	public abstract class AbstractUnit : IAbstractUnit
 	{
 		private float _unit = 0.0f;
 		public float Unit
 		{
 			get { return _unit; }
 			set { _unit = value; }
+		}
+
+		public AbstractUnit()
+		{
+
 		}
 
 		public virtual string Name

@@ -132,7 +132,13 @@ namespace Sandbox.Distance
 	public abstract class AbstractAcceleration : AbstractUnit
 	{
 		public AbstractDistance MovementDistance;
-		public IPow<AbstractTime, Squared> TimeInterval;
+		//public abstract Pow<AbstractTime, Squared> TimeInterval;
+		//public Pow<AbstractTime, Squared> TimeInterval;
+		//public virtual Pow<IAbstractUnit, Squared> TimeInterval
+		//{
+		//	get { return null; }
+		//	set { }
+		//}
 
 		public override string Name
 		{
@@ -142,6 +148,7 @@ namespace Sandbox.Distance
 		{
 			get
 			{
+				Debug.LogError("BROKEN\n");
 				return MovementDistance.DisplayUnit + "/" + "MISSING TIME INTERVAL";
 			}
 		}
@@ -158,6 +165,13 @@ namespace Sandbox.Distance
 
 	public class MetersPerSecondSqrd : AbstractAcceleration
 	{
+		//public override Pow<Second, Squared> TimeInterval
+		//{
+		//	get { return base.TimeInterval; }
+		//	set { }
+		//}
+		public Pow<Second, Squared> TimeInterval;
+
 		public override string Name
 		{
 			get { return "Meters Per Second^2"; }
@@ -165,6 +179,13 @@ namespace Sandbox.Distance
 		public override string Category
 		{
 			get { return "Acceleration"; }
+		}
+		public override string DisplayUnit
+		{
+			get
+			{
+				return MovementDistance.DisplayUnit + "/" + TimeInterval.DisplayUnit;
+			}
 		}
 
 		public override MetersPerSecondSqrd ToMetersPerSecondSqrd()
