@@ -32,7 +32,7 @@ namespace Sandbox.Distance
 	{
 		public Meter(float DistanceValue)
 		{
-			Unit = DistanceValue;
+			Value = DistanceValue;
 		}
 		public override string Name
 		{
@@ -51,16 +51,32 @@ namespace Sandbox.Distance
 		}
 		public override Inch ToInch()
 		{
-			return new Inch(Unit * 39.3701f);
+			return new Inch(Value * 39.3701f);
 		}
 		public override Foot ToFoot()
 		{
-			return new Foot(Unit * 3.28084f);
+			return new Foot(Value * 3.28084f);
 		}
 		public override Mile ToMile()
 		{
-			return new Mile(Unit / 1609.34f);
+			return new Mile(Value / 1609.34f);
 		}
+
+		public static Meter operator +(Meter c1, AbstractDistance c2)
+		{
+			return new Meter(c1.Value + c2.ToMeter().Value);
+		}
+		public static Meter operator -(Meter c1, AbstractDistance c2)
+		{
+			return new Meter(c1.Value - c2.ToMeter().Value);
+		}
+
+		//Using some operator overloading to create a Pow<T,U> of our new unit.
+		public Pow<Meter, Squared> Multiply(Meter c1, AbstractDistance c2)
+		{
+			return Pow<Meter, Squared>.New(c1 + c2);
+		}
+
 		public Meter() { }
 	}
 
@@ -68,7 +84,7 @@ namespace Sandbox.Distance
 	{
 		public Inch(float DistanceValue)
 		{
-			Unit = DistanceValue;
+			Value = DistanceValue;
 		}
 		public override string Name
 		{
@@ -83,7 +99,7 @@ namespace Sandbox.Distance
 		}
 		public override Meter ToMeter()
 		{
-			return new Meter(Unit / 39.3701f);
+			return new Meter(Value / 39.3701f);
 		}
 		public override Inch ToInch()
 		{
@@ -91,11 +107,11 @@ namespace Sandbox.Distance
 		}
 		public override Foot ToFoot()
 		{
-			return new Foot(Unit / 12);
+			return new Foot(Value / 12);
 		}
 		public override Mile ToMile()
 		{
-			return new Mile(Unit / 63360);
+			return new Mile(Value / 63360);
 		}
 
 	}
@@ -104,7 +120,7 @@ namespace Sandbox.Distance
 
 		public Foot(float DistanceValue)
 		{
-			Unit = DistanceValue;
+			Value = DistanceValue;
 		}
 		public override string Name
 		{
@@ -119,11 +135,11 @@ namespace Sandbox.Distance
 		}
 		public override Meter ToMeter()
 		{
-			return new Meter(Unit / 3.28084f);
+			return new Meter(Value / 3.28084f);
 		}
 		public override Inch ToInch()
 		{
-			return new Inch(Unit * 12);
+			return new Inch(Value * 12);
 		}
 		public override Foot ToFoot()
 		{
@@ -131,14 +147,14 @@ namespace Sandbox.Distance
 		}
 		public override Mile ToMile()
 		{
-			return new Mile(Unit / 5280);
+			return new Mile(Value / 5280);
 		}
 	}
 	public class Mile : AbstractDistance
 	{
 		public Mile(float DistanceValue)
 		{
-			Unit = DistanceValue;
+			Value = DistanceValue;
 		}
 		public override string Name
 		{
@@ -153,15 +169,15 @@ namespace Sandbox.Distance
 		}
 		public override Meter ToMeter()
 		{
-			return new Meter(Unit * 1609.34f);
+			return new Meter(Value * 1609.34f);
 		}
 		public override Inch ToInch()
 		{
-			return new Inch(Unit * 63360);
+			return new Inch(Value * 63360);
 		}
 		public override Foot ToFoot()
 		{
-			return new Foot(Unit * 5280);
+			return new Foot(Value * 5280);
 		}
 		public override Mile ToMile()
 		{

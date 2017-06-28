@@ -37,7 +37,7 @@ namespace Sandbox
 
 		public float ResolvedUnit()
 		{
-			return Power.Resolve(BaseUnit.Unit);
+			return Power.Resolve(BaseUnit.Value);
 		}
 	}
 

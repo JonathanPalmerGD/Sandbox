@@ -18,11 +18,11 @@ namespace Sandbox
 	/// </summary>
 	public abstract class AbstractUnit : IAbstractUnit
 	{
-		private float _unit = 0.0f;
-		public float Unit
+		private float _value = 0.0f;
+		public float Value
 		{
-			get { return _unit; }
-			set { _unit = value; }
+			get { return _value; }
+			set { _value = value; }
 		}
 
 		public AbstractUnit()
@@ -42,11 +42,18 @@ namespace Sandbox
 		{
 			return Name + " " + Category + ": " + Display;
 		}
+		/// <summary>
+		/// Display the Value + Unit for human readability.
+		/// </summary>
 		public virtual string Display
 		{
-			get { return (Unit + " " + Value); }
+			get { return (Value + " " + ComplexDisplayUnit); }
 		}
-		public string Value
+		public override string ToString()
+		{
+			return Display;
+		}
+		public string ComplexDisplayUnit
 		{
 			get { return (DisplayUnit + ""); }
 		}

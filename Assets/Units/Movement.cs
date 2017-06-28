@@ -69,7 +69,7 @@ namespace Sandbox.Distance
 		{
 			MovementDistance = distance;
 			TimeInterval = timeInterval;
-			Unit = MovementDistance.Unit / TimeInterval.Unit;
+			Value = MovementDistance.Value / TimeInterval.Value;
 		}
 	}
 
@@ -101,7 +101,7 @@ namespace Sandbox.Distance
 		{
 			MovementDistance = distance;
 			TimeInterval = timeInterval;
-			Unit = MovementDistance.Unit / TimeInterval.Unit;
+			Value = MovementDistance.Value / TimeInterval.Value;
 		}
 	}
 	public class MilesPerHour : AbstractVelocity
@@ -132,7 +132,7 @@ namespace Sandbox.Distance
 		{
 			MovementDistance = distance;
 			TimeInterval = timeInterval;
-			Unit = MovementDistance.Unit / TimeInterval.Unit;
+			Value = MovementDistance.Value / TimeInterval.Value;
 		}
 	}
 
@@ -204,7 +204,7 @@ namespace Sandbox.Distance
 		{
 			MovementDistance = distance;
 			TimeInterval = timeInterval;
-			Unit = MovementDistance.Unit / timeInterval.ResolvedUnit();
+			Value = MovementDistance.Value / timeInterval.ResolvedUnit();
 		}
 	}
 }

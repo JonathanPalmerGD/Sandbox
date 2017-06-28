@@ -53,20 +53,20 @@ namespace Sandbox.Distance
 		}
 		public override Minute ToMinute()
 		{
-			return new Minute(Unit / (60));
+			return new Minute(Value / (60));
 		}
 		public override Hour ToHour()
 		{
-			return new Hour(Unit / (60 * 60));
+			return new Hour(Value / (60 * 60));
 		}
 		public override Year ToYear()
 		{
-			return new Year(Unit / (60 * 60 * 24 * 365.25f));
+			return new Year(Value / (60 * 60 * 24 * 365.25f));
 		}
 
 		public Second(float timeInterval)
 		{
-			Unit = timeInterval;
+			Value = timeInterval;
 		}
 		public Second() { }
 	}
@@ -91,7 +91,7 @@ namespace Sandbox.Distance
 
 		public override Second ToSecond()
 		{
-			return new Second(Unit / 60);
+			return new Second(Value / 60);
 		}
 		public override Minute ToMinute()
 		{
@@ -99,16 +99,16 @@ namespace Sandbox.Distance
 		}
 		public override Hour ToHour()
 		{
-			return new Hour(Unit / (60 * 60));
+			return new Hour(Value / (60 * 60));
 		}
 		public override Year ToYear()
 		{
-			return new Year(Unit / (60 * 60 * 24 * 365.25f));
+			return new Year(Value / (60 * 60 * 24 * 365.25f));
 		}
 
 		public Minute(float timeInterval)
 		{
-			Unit = timeInterval;
+			Value = timeInterval;
 		}
 	}
 
@@ -132,11 +132,11 @@ namespace Sandbox.Distance
 
 		public override Second ToSecond()
 		{
-			return new Second(Unit * (60 * 60));
+			return new Second(Value * (60 * 60));
 		}
 		public override Minute ToMinute()
 		{
-			return new Minute(Unit / 60);
+			return new Minute(Value / 60);
 		}
 		public override Hour ToHour()
 		{
@@ -144,12 +144,12 @@ namespace Sandbox.Distance
 		}
 		public override Year ToYear()
 		{
-			return new Year(Unit * (24 * 365.25f));
+			return new Year(Value * (24 * 365.25f));
 		}
 
 		public Hour(float timeInterval)
 		{
-			Unit = timeInterval;
+			Value = timeInterval;
 		}
 	}
 
@@ -173,15 +173,15 @@ namespace Sandbox.Distance
 
 		public override Second ToSecond()
 		{
-			return new Second(Unit / (60 * 60 * 24 * 365.25f));
+			return new Second(Value / (60 * 60 * 24 * 365.25f));
 		}
 		public override Minute ToMinute()
 		{
-			return new Minute(Unit / (60 * 24 * 365.25f));
+			return new Minute(Value / (60 * 24 * 365.25f));
 		}
 		public override Hour ToHour()
 		{
-			return new Hour(Unit / (24 * 365.25f));
+			return new Hour(Value / (24 * 365.25f));
 		}
 		public override Year ToYear()
 		{
@@ -190,7 +190,7 @@ namespace Sandbox.Distance
 
 		public Year(float timeInterval)
 		{
-			Unit = timeInterval;
+			Value = timeInterval;
 		}
 	}
 }

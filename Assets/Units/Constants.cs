@@ -16,6 +16,9 @@ namespace Sandbox
 			}
 		}
 
+		//Note to self, add Reynolds Number (fluid simulation) into here.
+		//https://en.wikipedia.org/wiki/Reynolds_number
+
 		//Not to self, put gravity into this class
 
 		//For the PV=nRT. This is the R value.

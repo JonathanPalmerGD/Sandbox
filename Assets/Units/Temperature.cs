@@ -30,7 +30,7 @@ namespace Sandbox.Thermal
 		//We use a custom display here because we do '°' followed by the unit
 		public override string Display
 		{
-			get { return (Unit + " "+ Degree + Value); }
+			get { return (Value + " "+ Degree + ComplexDisplayUnit); }
 		}
 		
 		//This is a grouping of the available conversions
@@ -43,7 +43,7 @@ namespace Sandbox.Thermal
 	{
 		public Celsius(float TemperatureValue)
 		{
-			Unit = TemperatureValue;
+			Value = TemperatureValue;
 		}
 		public override string Name
 		{
@@ -62,11 +62,11 @@ namespace Sandbox.Thermal
 		}
 		public override Kelvin ToKelvin()
 		{
-			return new Kelvin(Unit + 273.15f);
+			return new Kelvin(Value + 273.15f);
 		}
 		public override Fahrenheit ToFahrenheit()
 		{
-			return new Fahrenheit((Unit * 1.8f) + 32);
+			return new Fahrenheit((Value * 1.8f) + 32);
 		}
 	}
 
@@ -85,11 +85,11 @@ namespace Sandbox.Thermal
 		}
 		public Kelvin(float TemperatureValue)
 		{
-			Unit = TemperatureValue;
+			Value = TemperatureValue;
 		}
 		public override Celsius ToCelsius()
 		{
-			return new Celsius(Unit - 273.15f);
+			return new Celsius(Value - 273.15f);
 		}
 		public override Kelvin ToKelvin()
 		{
@@ -97,7 +97,7 @@ namespace Sandbox.Thermal
 		}
 		public override Fahrenheit ToFahrenheit()
 		{
-			return new Fahrenheit((Unit * 1.8f) - 459.67f);
+			return new Fahrenheit((Value * 1.8f) - 459.67f);
 		}
 	}
 
@@ -117,15 +117,15 @@ namespace Sandbox.Thermal
 		}
 		public Fahrenheit(float TemperatureValue)
 		{
-			Unit = TemperatureValue;
+			Value = TemperatureValue;
 		}
 		public override Celsius ToCelsius()
 		{
-			return new Celsius((Unit - 32) * 5 / 9);
+			return new Celsius((Value - 32) * 5 / 9);
 		}
 		public override Kelvin ToKelvin()
 		{
-			return new Kelvin((Unit + 459.67f) / 1.8f);
+			return new Kelvin((Value + 459.67f) / 1.8f);
 		}
 		public override Fahrenheit ToFahrenheit()
 		{
