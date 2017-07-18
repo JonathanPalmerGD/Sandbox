@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This class is how we define the rules the simulation must follow.
 
-
-
-//Have a single [Influences]
-//[Influences]
-//	[List<Outcomes>]
-//		[Outcome]
-//			[List<Condition>]
-//				[Condition]
-//					[EnvFactor I watch]
-//					[What I require]
-//			[List<Effect>]
-//				[Effect]
-//					[EnvFactor I effect]
-//					[What happens to it]
 
 [System.Serializable]
 public class FactorRule
 {
+	//Rules want names for human readability
 	public string RuleName;
 
+	/// <summary>
+	/// Requirements govern what is needed before a rule can be followed. They observe factors in the simulation
+	/// </summary>
 	[SerializeField]
 	public List<Requirement> requirements;
+	/// <summary>
+	/// Results govern what happen when a rule is followed. They adjust Factors in the simulation.
+	/// </summary>
 	[SerializeField]
 	public List<Result> results;
 
@@ -54,6 +48,10 @@ public class FactorRule
 			AddRuleComponent(arguments[i]);
 		}
 	}
+	/// <summary>
+	/// Requirements and Results are both RuleComponents. This only serves to make nicer params constructors.
+	/// </summary>
+	/// <param name="component"></param>
 	public void AddRuleComponent(RuleComponent component)
 	{
 		if (component.GetType() == typeof(Requirement))
@@ -73,6 +71,11 @@ public class FactorRule
 	{
 		results.Add(newEffect);
 	}
+
+	/// <summary>
+	/// For if all the requirements are met.
+	/// </summary>
+	/// <returns></returns>
 	public bool EvaluateRequirements()
 	{
 		bool areAllRequirementsMet = true;
@@ -82,24 +85,17 @@ public class FactorRule
 		}
 		return areAllRequirementsMet;
 	}
+	/// <summary>
+	/// For applying the results to all relevant factors.
+	/// Will not violate ranges on factors.
+	/// </summary>
 	public void ApplyResults()
 	{
 		for (int i = 0; i < results.Count; i++)
 		{
-			Debug.Log("Applying " + RuleName + "\n");
+			//Debug.Log("Applying " + RuleName + "\n");
 			results[i].Apply();
 		}
-	}
-	public void Simulate()
-	{
-		for (int i = 0; i < requirements.Count; i++)
-		{
-
-		}
-	}
-	public void PrintRequirements()
-	{
-		Debug.Log(requirements.Count + "\n");
 	}
 }
 
@@ -110,12 +106,19 @@ public class RuleComponent
 [System.Serializable]
 public class Requirement : RuleComponent
 {
+	/// <summary>
+	/// The factor that must meet our condition for this requirement to be met.
+	/// </summary>
 	[SerializeField]
-	public FactorValues Observed;
+	public FactorData Observed;
+	/// <summary>
+	/// A condition lets us govern HOW we want to require the observed to behave. GreaterThan, LessThan, WithinRange, etc
+	/// </summary>
 	[SerializeField]
 	public Condition IfObservedIs;
-	public bool Not = false;
-	public Requirement(ref FactorValues FactorToObserve, Condition ConditionOnFactor)
+	//Decided not to support this. I'd use a XOR on Evaluate to get the intended behavior.
+	//public bool Not = false;
+	public Requirement(ref FactorData FactorToObserve, Condition ConditionOnFactor)
 	{
 		Observed = FactorToObserve;
 		IfObservedIs = ConditionOnFactor;
@@ -128,19 +131,27 @@ public class Requirement : RuleComponent
 	}
 }
 #region Types of Requirement Condition
+/// <summary>
+/// A condition must be evaluated related to a Factor.
+/// Use the GreaterThan, LessThan and WithinRange Conditions to evaluate requirements
+/// </summary>
 public abstract class Condition
 {
-	public abstract bool IsConditionMet(ref FactorValues value);
+	public abstract bool IsConditionMet(ref FactorData value);
 }
 [System.Serializable]
 public class GreaterThan : Condition
 {
 	public float GatewayValue;
+	/// <summary>
+	/// We store the value at time of condition creation. Then use it to evaluate.
+	/// </summary>
+	/// <param name="TrueIfGreaterThanThisValue"></param>
 	public GreaterThan(float TrueIfGreaterThanThisValue)
 	{
 		GatewayValue = TrueIfGreaterThanThisValue;
 	}
-	public override bool IsConditionMet(ref FactorValues value)
+	public override bool IsConditionMet(ref FactorData value)
 	{
 		return value.Strength > GatewayValue;
 	}
@@ -153,7 +164,7 @@ public class LessThan : Condition
 	{
 		GatewayValue = TrueIfLessThanThisValue;
 	}
-	public override bool IsConditionMet(ref FactorValues value)
+	public override bool IsConditionMet(ref FactorData value)
 	{
 		return value.Strength < GatewayValue;
 	}
@@ -162,25 +173,39 @@ public class LessThan : Condition
 public class WithinRange : Condition
 {
 	public Vector2 Range;
+	/// <summary>
+	/// We store two different values. If the observed factor's value is BETWEEN them, it will be true.
+	/// </summary>
+	/// <param name="MinBoundary"></param>
+	/// <param name="MaxBoundary"></param>
 	public WithinRange(float MinBoundary, float MaxBoundary)
 	{
 		Range = new Vector2(MinBoundary, MaxBoundary);
 	}
-	public override bool IsConditionMet(ref FactorValues value)
+	public override bool IsConditionMet(ref FactorData value)
 	{
 		return value.Strength > Range.x && value.Strength < Range.y;
 	}
 }
 
+//There is no support as of yet for something being related to ANOTHER factor's value.
+//Such as, True if (H2 > O2), otherwise false.
+
 #endregion
 [System.Serializable]
 public class Result : RuleComponent
 {
+	/// <summary>
+	/// What will be affected by this result.
+	/// </summary>
 	[SerializeField]
-	public FactorValues Target;
+	public FactorData Target;
+	/// <summary>
+	/// How we will modify our target when the result is applied.
+	/// </summary>
 	[SerializeField]
 	public Modification TargetModified;
-	public Result(ref FactorValues TargetFactor, Modification newModification)
+	public Result(ref FactorData TargetFactor, Modification newModification)
 	{
 		Target = TargetFactor;
 		TargetModified = newModification;
@@ -194,49 +219,65 @@ public class Result : RuleComponent
 #region Types of Result Modification
 public abstract class Modification
 {
-	public abstract void ModifyTarget(ref FactorValues value);
+	public abstract void ModifyTarget(ref FactorData value);
 }
+/// <summary>
+/// Adjust by a fixed value
+/// </summary>
 [System.Serializable]
-public class AdjustValue : Modification
+public class AdjustByFixedValue : Modification
 {
 	public float Adjustment;
-	public AdjustValue(float adjustment)
+	public AdjustByFixedValue(float adjustment)
 	{
 		Adjustment = adjustment;
 	}
-	public override void ModifyTarget(ref FactorValues value)
+	public override void ModifyTarget(ref FactorData value)
 	{
 		value.Strength += Adjustment;
 	}
 }
 [System.Serializable]
-public class AdjustValueByDeltaTime : Modification
+public class AdjustValueDeltaTime : Modification
 {
 	public float Adjustment;
-	public AdjustValueByDeltaTime(float adjustment)
+	/// <summary>
+	/// Adjustment is multiplied by Time.deltaTime
+	/// </summary>
+	/// <param name="adjustment"></param>
+	public AdjustValueDeltaTime(float adjustment)
 	{
 		Adjustment = adjustment;
 	}
-	public override void ModifyTarget(ref FactorValues value)
+	public override void ModifyTarget(ref FactorData value)
 	{
+		//Later we would want to step away from Time.deltaTime so we could control our simulation better.
 		value.Strength += Adjustment * Time.deltaTime;
 	}
 }
-//[System.Serializable]
-//public class RefAdjustValueByDeltaTime : Modification
-//{
-//	public float Adjustment;
-//	public EnvFactor Factor;
-//	public RefAdjustValueByDeltaTime(float adjustment, ref FactorValues factor)
-//	{
-//		Adjustment = adjustment;
-//		Factor = factor;
-//	}
-//	public override void ModifyTarget(ref FactorValues value)
-//	{
-//		value.Strength += Factor.Stats.Strength * Adjustment * Time.deltaTime;
-//	}
-//}
+/// <summary>
+/// This was one I didn't get working quite yet.
+/// The idea is that it adjusts a factor by the value of another factor.
+/// Example: Adjust O2 based on how many Cyanobacteria there are
+/// </summary>
+[System.Serializable]
+public class RefAdjustValueByDeltaTime : Modification
+{
+	public float Adjustment;
+	public FactorData Factor;
+	public RefAdjustValueByDeltaTime(float adjustment, ref FactorData factor)
+	{
+		Adjustment = adjustment;
+		Factor = factor;
+	}
+	public override void ModifyTarget(ref FactorData value)
+	{
+		value.Strength += Factor.Strength * Adjustment * Time.deltaTime;
+	}
+}
+/// <summary>
+/// This is for VERY fast adjustment of something over time. It multiplies based on the value.
+/// </summary>
 [System.Serializable]
 public class MultiplyByPercentAndDeltaTime : Modification
 {
@@ -245,30 +286,38 @@ public class MultiplyByPercentAndDeltaTime : Modification
 	{
 		PercentChangePerSecond = percentChangePerSecond;
 	}
-	public override void ModifyTarget(ref FactorValues value)
+	public override void ModifyTarget(ref FactorData value)
 	{
 		//Debug.Log("Applying " + value.Key + " Mult by % & dt  " + value.Strength + " *  " + PercentChangePerSecond + "  /  " + Time.deltaTime + "\n");
 		value.Strength = value.Strength * (PercentChangePerSecond * Time.deltaTime);
 	}
 }
+/// <summary>
+/// Modifies the target by setting it to it's floor available value.
+/// Example, opening the airlock floors the amount of O2 in the spaceship.
+/// </summary>
 [System.Serializable]
 public class Floor : Modification
 {
 	public Floor()
 	{
 	}
-	public override void ModifyTarget(ref FactorValues value)
+	public override void ModifyTarget(ref FactorData value)
 	{
 		value.Strength = value.StrengthRange.x;
 	}
 }
+/// <summary>
+/// Modifies the target by setting it to it's ceiling available value.
+/// Example: Filling the room with happiness when you start dancing.
+/// </summary>
 [System.Serializable]
 public class Ceiling : Modification
 {
 	public Ceiling()
 	{
 	}
-	public override void ModifyTarget(ref FactorValues value)
+	public override void ModifyTarget(ref FactorData value)
 	{
 		value.Strength = value.StrengthRange.y;
 	}
